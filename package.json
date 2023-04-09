@@ -1,7 +1,7 @@
 {
   "name": "react-assignment",
   "version": "0.1.0",
-  "homepage": "https://marahshabello.github.io/Harri-Part2-React",
+  "homepage": "https://marahshabello.github.io/Harri-Reactjs",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",

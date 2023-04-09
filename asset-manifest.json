@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Harri-Reactjs/static/css/main.402c628c.css",
+    "main.js": "/Harri-Reactjs/static/js/main.4a70367c.js",
+    "static/js/787.159cc081.chunk.js": "/Harri-Reactjs/static/js/787.159cc081.chunk.js",
+    "index.html": "/Harri-Reactjs/index.html",
+    "main.402c628c.css.map": "/Harri-Reactjs/static/css/main.402c628c.css.map",
+    "main.4a70367c.js.map": "/Harri-Reactjs/static/js/main.4a70367c.js.map",
+    "787.159cc081.chunk.js.map": "/Harri-Reactjs/static/js/787.159cc081.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.402c628c.css",
+    "static/js/main.4a70367c.js"
+  ]
+}

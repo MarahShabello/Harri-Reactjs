@@ -41,6 +41,34 @@ function HomePage() {
 
   const [darkTheme, setDarkTheme] = useState('light');
 
+  const getFavCountries = (codes) => {
+    if (codes) {
+      let countriesArray = [];
+      codes.map(code => {
+        countries.find(country => {
+          const { cca3 } = country;
+          if (cca3 === code) {
+            countriesArray.push(country)
+            return country;
+          }
+        })
+      })
+      setFavouriteCountries(countriesArray)
+    }
+  }
+
+  const checkDuplicate = (countryCode) => {
+    let favCountries = favouriteCountries || [];
+    return favCountries.find(country => findFavCountry(country, countryCode));
+  }
+
+  const findFavCountry = (country, code) => {
+    const { cca3 } = country;
+    if (cca3 === code) {
+      return country;
+    }
+  }
+
   useEffect(() => {
     const debounce = setTimeout(() => {
       fetchCountries(searchText)
@@ -54,19 +82,24 @@ function HomePage() {
 
   useEffect(() => {
     const debounce = setTimeout(() => {
-      let filteredData = countries.filter(country => {
-        return (!filterRegion || country.region.toLowerCase() === filterRegion || filterRegion === 'no-filter')
-      })
-      setFilteredCountries(filteredData)
+      if (filterRegion === 'favourites') {
+        setFilteredCountries(favouriteCountries)
+      }
+      else {
+        let filteredData = countries.filter(country => {
+          return (!filterRegion || country.region.toLowerCase() === filterRegion || filterRegion === 'no-filter')
+        })
+        setFilteredCountries(filteredData)
+      }
     }, 100)
 
     return () => clearTimeout(debounce)
   }, [countries, filterRegion])
 
   useEffect(() => {
-    setFavouriteCountries(getFromLocalStorage('favourites'))
+    getFavCountries(getFromLocalStorage('favourites'))
     setDarkTheme(getFromLocalStorage('theme'))
-  }, [])
+  }, [favouriteCountries, darkTheme])
 
   return (
     <AppTheme.Provider value={{ darkTheme, setDarkTheme }}>

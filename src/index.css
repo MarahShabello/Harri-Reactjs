@@ -13,6 +13,7 @@
 .light-element{
     background-color: white;
     color: #111517;
+    box-shadow: 1px 1px 5px #858585,
 }
 
 .dark{
@@ -23,4 +24,5 @@
 .dark-element{
     background-color: #2b3945;
     color: white;
+    box-shadow: 1px 1px 5px #2b3945;
 }

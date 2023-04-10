@@ -4,22 +4,23 @@ import { Button } from '@mui/material/';
 import { Link } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
-const StyledButton = styled(Button)(() => ({
-    fontFamily: 'Nunito Sans',
-    backgroundColor: '#fff',
-    color: '#111517',
-}));
+function BackButton({ theme }) {
+    const StyledButton = styled(Button)(() => ({
+        fontFamily: 'Nunito Sans',
+        color: theme === 'dark' ? '#fafafa' : '#111517',
+        backgroundColor: theme === 'dark' ? '#2b3945' : 'white',
+    }));
 
-const StyledLink = styled(Link)(() => ({
-    textDecoration: 'none',
-    color: '#111517'
-}));
+    const StyledLink = styled(Link)(() => ({
+        textDecoration: 'none',
+        color: theme === 'dark' ? '#fafafa' : '#111517',
+        backgroundColor: theme === 'dark' ? '#2b3945' : 'white',
+    }));
 
-const StyledBackIcon = styled(KeyboardBackspaceIcon)(() => ({
-    marginInlineEnd: '10px'
-}));
-
-function BackButton() {
+    const StyledBackIcon = styled(KeyboardBackspaceIcon)(() => ({
+        marginInlineEnd: '10px'
+    }));
+    
     return (
         <StyledLink to="/">
             <StyledButton variant="contained">

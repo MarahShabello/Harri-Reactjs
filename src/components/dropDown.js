@@ -4,25 +4,32 @@ import { Box, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 
 import { AppTheme } from '../pages/home';
 
-const StyledBox = styled(Box)(() => ({
-  width: '175px',
-  borderRadius: '4px',
-  border: 'none'
-}));
-
-const StyledFormControl = styled(FormControl)(() => ({
-  borderRadius: '4px',
-  border: 'none'
-}));
-
-const StyledSelect = styled(Select)(() => ({
-  textAlign: 'left',
-  height: '100%',
-  borderRadius: '4px',
-}));
-
 const BasicSelect = ({ value, onFilter }) => {
   const { darkTheme } = useContext(AppTheme);
+
+  const StyledBox = styled(Box)(() => ({
+    width: '175px',
+    borderRadius: '4px',
+    border: 'none',
+    padding: '0'
+  }));
+
+  const StyledFormControl = styled(FormControl)(() => ({
+    borderRadius: '4px',
+    border: 'none',
+  }));
+
+  const StyledSelect = styled(Select)(() => ({
+    textAlign: 'left',
+    height: '100%',
+    borderRadius: '4px',
+  }));
+
+  const StyledMenuItem = styled(MenuItem)(() => ({
+    margin: '-1px',
+    color: darkTheme === 'dark' ? '#fafafa' : '#111517',
+    backgroundColor: darkTheme === 'dark' ? '#2b3945' : 'white',
+  }))
 
   const handleChange = (event) => {
     onFilter(event.target.value)
@@ -39,13 +46,13 @@ const BasicSelect = ({ value, onFilter }) => {
           label="Region"
           onChange={handleChange}
         >
-          <MenuItem value='no-filter'>No filter</MenuItem>
-          <MenuItem value='africa'>Africa</MenuItem>
-          <MenuItem value='americas'>America</MenuItem>
-          <MenuItem value='asia'>Asia</MenuItem>
-          <MenuItem value='europe'>Europe</MenuItem>
-          <MenuItem value='oceania'>Oceania</MenuItem>
-          <MenuItem value='favourites'>Favourites</MenuItem>
+          <StyledMenuItem value='no-filter'>No filter</StyledMenuItem>
+          <StyledMenuItem value='africa'>Africa</StyledMenuItem>
+          <StyledMenuItem value='americas'>America</StyledMenuItem>
+          <StyledMenuItem value='asia'>Asia</StyledMenuItem>
+          <StyledMenuItem value='europe'>Europe</StyledMenuItem>
+          <StyledMenuItem value='oceania'>Oceania</StyledMenuItem>
+          <StyledMenuItem value='favourites'>Favourites</StyledMenuItem>
         </StyledSelect>
       </StyledFormControl>
     </StyledBox>

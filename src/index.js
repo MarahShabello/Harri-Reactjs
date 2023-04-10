@@ -10,7 +10,7 @@ import DetailsPage from './pages/countryDetails';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename='/Harri-Part2-React'>
+    <BrowserRouter basename='/Harri-Reactjs'>
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route path="/details/:countryCode" element={<DetailsPage />} />

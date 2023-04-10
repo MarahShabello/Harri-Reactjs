@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import FavouriteCountry from './favouriteCountry';
+import '../index.css'
 
 import { AppTheme } from '../pages/home';
 import { useDrop } from 'react-dnd';
@@ -9,7 +10,6 @@ import getFromLocalStorage from '../localStorage/getFromLocalStorage';
 import setInLocalStorage from '../localStorage/setInLocalStorage';
 
 const Favourites = styled('div')(({ theme }) => ({
-    fontFamily: 'Nunito Sans',
     padding: '20px',
     borderRadius: '5px',
     height: '100%',
@@ -25,15 +25,14 @@ const Favourites = styled('div')(({ theme }) => ({
 }));
 
 const StyledTypography = styled(Typography)(() => ({
-    fontFamily: 'Nunito Sans',
     fontWeight: '800',
-    fontSize: '30px',
+    fontSize: '28px',
     marginBottom: '25px'
 }));
 
 function FavouritesSection({ countries }) {
     const { darkTheme } = useContext(AppTheme);
-    const [favouriteCountries, setFavouriteCountries] = useState([]);
+    let favs = getFromLocalStorage('favourites') || [];
 
     const [{ isOver }, drop] = useDrop(() => ({
         accept: "CardActionArea",
@@ -44,9 +43,8 @@ function FavouritesSection({ countries }) {
     }))
 
     const addFavourite = (id) => {
-        console.log(`Dropped: ${id}`)
-        // getFromLocalStorage('favourites');
-        // setInLocalStorage('favourites', favs);
+        favs.push(id)
+        setInLocalStorage('favourites', favs);
     }
 
     return (
@@ -55,12 +53,10 @@ function FavouritesSection({ countries }) {
             {(countries) ?
                 countries.map(country => {
                     const { name, flags, cca3 } = country;
-
                     return <FavouriteCountry key={cca3}
                         name={name.common}
                         flag={flags.svg}
                     />
-
                 }) :
                 <></>
             }

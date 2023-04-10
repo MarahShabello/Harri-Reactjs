@@ -31,13 +31,18 @@ const FavCountry = styled('span')(() => ({
 }));
 
 function FavouriteCountry(props) {
+
+    const handleChange = () => {
+        console.log('Remove')
+    }
+
     return (
         <StyledFavCountry>
             <FavCountry>
                 <CountryFlag src={props.flag} />
                 {props.name}
             </FavCountry>
-            <StyledClearIcon />
+            <StyledClearIcon onClick={handleChange} />
         </StyledFavCountry>
     );
 }

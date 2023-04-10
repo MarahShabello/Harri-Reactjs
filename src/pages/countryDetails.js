@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import BoxSize from 'react-box-size';
-import { CssBaseline } from '@mui/material/';
+import React, { useEffect, useState, createContext } from 'react';
+// import BoxSize from 'react-box-size';
+import { CssBaseline, Box } from '@mui/material/';
+import { styled } from '@mui/material/styles';
 
 import AppHeader from '../../src/components/header';
 import BackButton from '../../src/components/backButton';
@@ -10,29 +11,39 @@ import CountryInfo from '../components/countryInfo';
 import fetchCountryDetails from '../utils/fetchCountryDetails';
 import getFromLocalStorage from '../localStorage/getFromLocalStorage';
 
+export const DetailsTheme = createContext(getFromLocalStorage('theme'))
+
 function DetailsPage() {
-    const darkTheme = getFromLocalStorage('theme');
-    console.log(`Theme: ${darkTheme}`)
     const [country, setCountry] = useState([]);
+    const [darkTheme, setDarkTheme] = useState(getFromLocalStorage('theme'));
     const { countryCode } = useParams();
+
+    const StyledBoxSize = styled(Box)(() => ({
+        boxSizing: 'border-box',
+        padding: '60px'
+    }));
+
+    useEffect(() => {
+        setDarkTheme(darkTheme)
+    }, [darkTheme])
 
     useEffect(() => {
         fetchCountryDetails(countryCode)
             .then(data => {
-                setCountry(data)
+                setCountry(data[0])
             })
     }, [countryCode])
 
     if (country) {
         return (
-            <>
+            <DetailsTheme.Provider value={{ darkTheme, setDarkTheme }}>
                 <CssBaseline />
                 <AppHeader />
-                <BoxSize pv={6} ph={6} className={darkTheme === 'dark' ? 'dark' : 'light'}>
-                    <BackButton />
-                    <CountryInfo country={country} />
-                </BoxSize>
-            </>
+                <StyledBoxSize className={darkTheme === 'dark' ? 'dark' : 'light'}>
+                    <BackButton theme={darkTheme} />
+                    <CountryInfo country={country} theme={darkTheme} />
+                </StyledBoxSize>
+            </DetailsTheme.Provider>
         );
 
     }

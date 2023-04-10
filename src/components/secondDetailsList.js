@@ -3,8 +3,7 @@ import { styled } from '@mui/material/styles';
 import { Box, List, ListItem } from '@mui/material/';
 
 const StyledBox = styled(Box)(() => ({
-    backgroundColor: 'inherit',
-    color: '#111517'
+    backgroundColor: 'inherit'
 }));
 
 const StyledCountryData = styled('span')(() => ({

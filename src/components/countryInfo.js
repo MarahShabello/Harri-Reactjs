@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import { Grid, Typography } from '@mui/material/';
 
 import FirstDetailsList from '../../src/components/firstDetailsList';
 import SecondDetailsList from '../../src/components/secondDetailsList';
 import CountryBorders from '../../src/components/countryBorders';
+import fetchCountryDetails from '../utils/fetchCountryDetails';
+
+import { DetailsTheme } from '../pages/countryDetails';
+import '../index.css'
 
 const StyledName = styled(Typography)(({ theme }) => ({
-    fontFamily: 'Nunito Sans',
     fontWeight: '800',
     textDecoration: 'none',
     [theme.breakpoints.down('md')]: {
@@ -16,13 +19,11 @@ const StyledName = styled(Typography)(({ theme }) => ({
 }));
 
 const StyledRow = styled('div')(() => ({
-    fontFamily: 'Nunito Sans',
     fontWeight: '300',
     fontSize: '15px'
 }));
 
 const StyledBorderCountries = styled('div')(() => ({
-    fontFamily: 'Nunito Sans',
     fontWeight: '600',
     fontSize: '16px',
     marginRight: '5px',
@@ -43,7 +44,6 @@ const StyledDetailsContainer = styled(Grid)(({ theme }) => ({
 }));
 
 const StyledGrid = styled(Grid)(() => ({
-    backgroundColor: '#fff',
     paddingTop: '60px'
 }));
 
@@ -54,7 +54,22 @@ const StyledCountryFlag = styled('img')(() => ({
 }));
 
 function CountryInfo({ country }) {
-    
+    const { darkTheme } = useContext(DetailsTheme);
+    const [countryBorders, setCountryBorders] = useState([]);
+
+    useEffect(() => {
+        let bordersName = [];
+        if (!country.borders || country.length === 0) return;
+        Promise.all(country.borders.map(border => fetchCountryDetails(border)))
+            .then(response => {
+                response.map(c => {
+                    bordersName.push(c[0].name.common);
+                    console.log(bordersName)
+                })
+            })
+        setCountryBorders(bordersName)
+    }, [country])
+
     const splitBetweenElements = (elements) => {
         return elements.toString().split(",").join(", ");
     }
@@ -75,65 +90,44 @@ function CountryInfo({ country }) {
         return countryCurrencies;
     }
 
-    const getCountryBorders = (key) => {
-        if(key){
-            console.log(`Key`)
-            let countryBorders = [];
-            countryBorders = Object.values(key)
-            return countryBorders;
-        }
-        else{
-            console.log(`None`)
-        }
+    if (country.length !== 0) {
+        return <StyledGrid container columnSpacing={12} className={darkTheme === 'dark' ? 'dark' : 'light'}>
+            <Grid item lg={6} xs={12}>
+                <StyledCountryFlag src={country.flags.svg} />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+                <Grid container columns={{ xs: 4, md: 12 }}>
+                    <StyledDetailsGrid>
+                        <StyledName variant='h4' component="div">{country.name.common}</StyledName>
+                        <StyledRow sx={{ marginBottom: '40px' }}>
+                            <StyledDetailsContainer container>
+                                <FirstDetailsList
+                                    nativeName={country.name.nativeName[Object.keys(country.name.nativeName)[0]].official}
+                                    population={country.population.toLocaleString()}
+                                    region={country.region}
+                                    subRegion={country.subregion}
+                                    capital={country.capital}
+                                />
+                                <SecondDetailsList
+                                    tld={getDataValues(country.tld)}
+                                    currencies={getCurrencies(country.currencies)}
+                                    languages={getDataValues(country.languages)}
+                                />
+                            </StyledDetailsContainer>
+                        </StyledRow>
+                        <StyledRow>
+                            <StyledBorderCountries>
+                                Border Countries:
+                                <CountryBorders
+                                    borders={countryBorders}
+                                />
+                            </StyledBorderCountries>
+                        </StyledRow>
+                    </StyledDetailsGrid>
+                </Grid>
+            </Grid>
+        </StyledGrid>
     }
-
-    return (
-        <>
-            {
-                Object.keys(country).map((key, index) => (
-
-                    (<StyledGrid container spacing={12} key={index}>
-                        <Grid item lg={6} xs={12}>
-                            <StyledCountryFlag src={country[key].flags.svg} />
-                        </Grid>
-                        <Grid item lg={6} xs={12}>
-                            <Grid container columns={{ xs: 4, md: 12 }}>
-                                <StyledDetailsGrid>
-                                    <StyledName variant='h4' component="div">{country[key].name.common}</StyledName>
-                                    <StyledRow sx={{ marginBottom: '40px' }}>
-                                        <StyledDetailsContainer container>
-                                            <FirstDetailsList
-                                                nativeName={country[key].name.nativeName[Object.keys(country[key].name.nativeName)[0]].official}
-                                                population={country[key].population.toLocaleString()}
-                                                region={country[key].region}
-                                                subRegion={country[key].subregion}
-                                                capital={country[key].capital}
-                                            />
-                                            <SecondDetailsList
-                                                tld={getDataValues(country[key].tld)}
-                                                currencies={getCurrencies(country[key].currencies)}
-                                                languages={getDataValues(country[key].languages)}
-                                            />
-                                        </StyledDetailsContainer>
-                                    </StyledRow>
-                                    <StyledRow>
-                                        <StyledBorderCountries>
-                                            Border Countries:
-                                            <CountryBorders
-                                                borders={getCountryBorders(country[key].borders)}
-                                            />
-                                        </StyledBorderCountries>
-                                    </StyledRow>
-                                </StyledDetailsGrid>
-                            </Grid>
-
-                        </Grid>
-                    </StyledGrid>)
-
-                ))
-            }
-        </>
-    );
 }
 
 export default CountryInfo;

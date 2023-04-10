@@ -4,8 +4,7 @@ import { Box, List, ListItem } from '@mui/material/';
 
 const StyledBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'inerit',
-    color: '#111517',
-    marginRight: '80px',
+    marginRight: '20px',
     [theme.breakpoints.down('md')]: {
         marginBottom: '40px'
     },

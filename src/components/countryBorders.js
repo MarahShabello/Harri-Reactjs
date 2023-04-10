@@ -1,7 +1,6 @@
-import React, { createElement } from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Button, Stack } from '@mui/material/';
-import fetchCountryDetails from '../utils/fetchCountryDetails';
 
 const StyledBorder = styled(Button)(() => ({
     fontFamily: 'Nunito Sans',
@@ -13,24 +12,6 @@ const StyledBorder = styled(Button)(() => ({
     padding: '8px'
 }));
 
-const getName = (border) => {
-    fetchCountryDetails(border).then(country => {
-        Object.keys(country).map((key) => {
-            let countryName = country[key].name.common;
-            console.log(`Name: ${countryName}`)
-            // return <BorderCountry countryName={countryName}/>
-            return countryName;
-        })
-    });
-}
-
-// function BorderCountry({ countryName }) {
-//     return createElement(
-//         StyledBorder,
-//         null,
-//         { countryName }
-//     );
-// }
 
 function CountryBorders({ borders }) {
 
@@ -38,11 +19,10 @@ function CountryBorders({ borders }) {
         return <Stack direction="row" spacing={2}>
             {borders.map(border => {
                 return <StyledBorder variant="contained" key={border}>
-                    {getName(border)}
+                {border}
                 </StyledBorder>
             })}
         </Stack>
-
     }
     else {
         return <>No borders</>

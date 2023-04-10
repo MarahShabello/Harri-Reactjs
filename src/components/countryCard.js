@@ -6,21 +6,22 @@ import { useDrag } from 'react-dnd';
 import { AppTheme } from '../pages/home';
 
 const StyledCountryName = styled(Typography)(() => ({
+    fontFamily: 'Nunito Sans',
     fontWeight: '600',
-    fontSize: '20px',
+    fontSize: '18px',
     textDecoration: 'none',
-    marginBottom: '20px'
+    marginBottom: '15px'
 }));
 
 const StyledCountryData = styled('span')(() => ({
     fontWeight: '600',
-    fontSize: '16px',
+    fontSize: '14px',
     marginRight: '5px'
 }));
 
 const StyledRow = styled('div')(() => ({
     fontWeight: '300',
-    fontSize: '16px',
+    fontSize: '14px',
     paddingBottom: '5px',
     border: 'none',
     marginTop: '-1px'
@@ -45,20 +46,19 @@ const StyledStarIcon = styled(StarRateRoundedIcon)(({ theme }) => ({
 
 const SryledCard = styled(Card)(() => ({
     border: 'none',
-    borderRadius: '8px',
-    boxShadow: '1px 1px 8px lightgray',
+    borderRadius: '5px',
     width: 'auto',
 }));
 
 const StyledCardContent = styled(CardContent)(({ theme }) => ({
-    paddingTop: '10px',
-    paddingLeft: '5px',
-    paddingRight: '5px',
+    paddingTop: '22px',
+    paddingLeft: '22px',
+    paddingRight: '22px',
     [theme.breakpoints.down('md')]: {
         paddingBottom: '0'
     },
     [theme.breakpoints.up('lg')]: {
-        paddingBottom: '20px'
+        paddingBottom: '35px'
     },
 }));
 
@@ -94,7 +94,7 @@ function ActionAreaCard(props) {
                     alt={name}
                 />
                 <StyledCardContent className={darkTheme === 'dark' ? 'dark-element' : 'light-element'}>
-                    <StyledCountryName gutterBottom variant="h5" component="div">
+                    <StyledCountryName gutterBottom component="div">
                         {name}
                     </StyledCountryName>
 
